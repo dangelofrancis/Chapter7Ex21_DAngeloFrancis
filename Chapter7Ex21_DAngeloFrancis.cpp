@@ -27,9 +27,40 @@ int main() {
 
 	//Create menu
 	while (keepPlaying = true) {
+		int choice = 0;
+
 		cout << "2D Array Operations\n\n";
-		cout << "1. Get Total\n";
-		cout << "2. Get Average\n";
+		cout << "1. Total\n";
+		cout << "2. Average\n";
+		cout << "3. Row Total\n";
+		cout << "4. Column Total\n";
+		cout << "5. Highest In Row\n";
+		cout << "6. Lowest In Row\n";
+		cout << "7. Quit\n\n";
+
+		do {
+			cout << "Enter your choice(1-7): ";
+			cin >> choice;
+		} while (choice >= 1 || choice <= 7);
+
+		switch (choice) {
+		case 1:
+			getTotal();
+		case 2:
+			getAverage();
+		case 3:
+			getRowTotal();
+		case 4:
+			getColumnTotal();
+		case 5:
+			getHighestInRow();
+		case 6:
+			getLowestInRow();
+		case 7:
+			keepPlaying = false;
+			break;
+		}
+		return 0;
 	}
-	return 0;
 }
+int getTotal()
