@@ -9,24 +9,27 @@ Display the options in a menu to call the various functions.*/
 #include<iostream>
 using namespace std;
 
-int getTotal();
-int getAverage();
-int getRowTotal();
-int getColumnTotal();
-int getHighestInRow();
-int getLowestInRow();
+const int ROWS = 3;
+const int COLS = 4;
+
+int getTotal(const int arr[ROWS][COLS]);
+double getAverage(const int arr[ROWS][COLS]);
+int getRowTotal(const int arr[ROWS][COLS], int row);
+int getColumnTotal(const int arr[ROWS][COLS], int col);
+int getHighestInRow(const int arr[ROWS][COLS], int row);
+int getLowestInRow(const int arr[ROWS][COLS], int row);
 
 int main() {
-	//Create array with test data. NOTE: I wasn't sure what text file to use, so I made my own up
-	int numbers[3][4] = {
-		{0,1,2,3},
-		{4,5,6,7},
-		{8,9,10,11}
+	//Create array with test data
+	int numbers[ROWS][COLS] = {
+		{0, 1, 2, 3},
+		{4, 5, 6, 7},
+		{8, 9, 10, 11}
 	};
 	bool keepPlaying = true;
 
 	//Create menu
-	while (keepPlaying = true) {
+	while (keepPlaying) {
 		int choice = 0;
 
 		cout << "2D Array Operations\n\n";
@@ -38,29 +41,113 @@ int main() {
 		cout << "6. Lowest In Row\n";
 		cout << "7. Quit\n\n";
 
-		do {
-			cout << "Enter your choice(1-7): ";
-			cin >> choice;
-		} while (choice >= 1 || choice <= 7);
+		cout << "Enter your choice (1-7): ";
+		cin >> choice;
+
+		if (choice < 1 || choice > 7) {
+			cout << "*ERROR* Invalid choice. Please try again.\n";
+			continue;
+		}
 
 		switch (choice) {
 		case 1:
-			getTotal();
+			cout << "Total: " << getTotal(numbers) << "\n";
+			break;
 		case 2:
-			getAverage();
-		case 3:
-			getRowTotal();
-		case 4:
-			getColumnTotal();
-		case 5:
-			getHighestInRow();
-		case 6:
-			getLowestInRow();
+			cout << "Average: " << getAverage(numbers) << "\n";
+			break;
+		case 3: {
+			int row;
+			cout << "Enter row number (0 to " << ROWS - 1 << "): ";
+			cin >> row;
+			if (row >= 0 && row < ROWS)
+				cout << "Row Total: " << getRowTotal(numbers, row) << "\n";
+			else
+				cout << "ERROR* Invalid row number.\n";
+			break;
+		}
+		case 4: {
+			int col;
+			cout << "Enter column number (0 to " << COLS - 1 << "): ";
+			cin >> col;
+			if (col >= 0 && col < COLS)
+				cout << "Column Total: " << getColumnTotal(numbers, col) << "\n";
+			else
+				cout << "*ERROR* Invalid column number.\n";
+			break;
+		}
+		case 5: {
+			int row;
+			cout << "Enter row number (0 to " << ROWS - 1 << "): ";
+			cin >> row;
+			if (row >= 0 && row < ROWS)
+				cout << "Highest in Row: " << getHighestInRow(numbers, row) << "\n";
+			else
+				cout << "*ERROR* Invalid row number.\n";
+			break;
+		}
+		case 6: {
+			int row;
+			cout << "Enter row number (0 to " << ROWS - 1 << "): ";
+			cin >> row;
+			if (row >= 0 && row < ROWS)
+				cout << "Lowest in Row: " << getLowestInRow(numbers, row) << "\n";
+			else
+				cout << "*ERROR* Invalid row.\n";
+			break;
+		}
 		case 7:
 			keepPlaying = false;
 			break;
 		}
-		return 0;
 	}
+	return 0;
 }
-int getTotal()
+
+int getTotal(const int arr[ROWS][COLS]) {
+	int total = 0;
+	for (int i = 0; i < ROWS; i++) {
+		for (int j = 0; j < COLS; j++) {
+			total += arr[i][j];
+		}
+	}
+	return total;
+}
+
+double getAverage(const int arr[ROWS][COLS]) {
+	return static_cast<double>(getTotal(arr)) / (ROWS * COLS);
+}
+
+int getRowTotal(const int arr[ROWS][COLS], int row) {
+	int total = 0;
+	for (int j = 0; j < COLS; j++) {
+		total += arr[row][j];
+	}
+	return total;
+}
+
+int getColumnTotal(const int arr[ROWS][COLS], int col) {
+	int total = 0;
+	for (int i = 0; i < ROWS; i++) {
+		total += arr[i][col];
+	}
+	return total;
+}
+
+int getHighestInRow(const int arr[ROWS][COLS], int row) {
+	int highest = arr[row][0];
+	for (int j = 1; j < COLS; j++) {
+		if (arr[row][j] > highest)
+			highest = arr[row][j];
+	}
+	return highest;
+}
+
+int getLowestInRow(const int arr[ROWS][COLS], int row) {
+	int lowest = arr[row][0];
+	for (int j = 1; j < COLS; j++) {
+		if (arr[row][j] < lowest)
+			lowest = arr[row][j];
+	}
+	return lowest;
+}
